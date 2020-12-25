@@ -57,9 +57,12 @@ namespace ConsoleApp1
             /* Спрашиваем у пользователя сколько долларов ему нужно перевести в евро */
             Console.Write("Введите количество долларов: ");
             decimal put = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine();
 
             /* ВЫВОД */
             Console.WriteLine($"{put} долларов = {Math.Round(neuron.ProcessInputData(put), 3)} евро");
+            Console.WriteLine();
+            Console.WriteLine($"Конечная ошибка (отличие истинного значения от того что вычислила нейросеть): {Math.Round((euro * put)/dollar - neuron.ProcessInputData(put), 7)}");
 
             Console.ReadKey();
         }
