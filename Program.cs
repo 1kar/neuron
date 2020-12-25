@@ -8,22 +8,26 @@ namespace ConsoleApp1
 {
     class Program
     {
+        /* КЛАСС НЕЙРОНА */
         public class Neuron
         {
-            private decimal weight = 0.5m;
+            private decimal weight = 0.5m; //вес связи
             public decimal LastError { get; private set; }
             public decimal Smoothing { get; set; } = 0.00001m; //сглаживание
 
-            public decimal ProcessInputData(decimal input) //Перевод долааров в евро
+            /* Перевод долларов в евро */
+            public decimal ProcessInputData(decimal input)
             {
                 return input * weight;
             }
 
-            public decimal RestoreInputData(decimal output) //Перевод из евро доллары
+            /* Перевод евро в доллары */
+            public decimal RestoreInputData(decimal output) 
             {
                 return output / weight;
             }
 
+            /* Корректировка веса связи */
             public void Train(decimal input, decimal expectedResult)
             {
                 var actualResult = input * weight;
@@ -35,11 +39,14 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
+            /* АКУТАЛЬНЫЙ КУРС ВАЛЮТ */
             decimal dollar = 100;
             decimal euro = 82.1m;
 
+            /* Создание новго нейрона */
             Neuron neuron = new Neuron();
 
+            /* ОБУЧЕНИЕ ДО ТОГО МОМЕНТА ПОКА НЕ ДОСТИГНЕМ НУЖНОЙ ТОЧНОСТИ */
             int i = 0;
             do
             {
@@ -47,9 +54,11 @@ namespace ConsoleApp1
                 neuron.Train(dollar, euro);
             } while (neuron.LastError > neuron.Smoothing || neuron.LastError < -neuron.Smoothing);
 
+            /* Спрашиваем у пользователя сколько долларов ему нужно перевести в евро */
             Console.Write("Введите количество долларов: ");
             decimal put = Convert.ToDecimal(Console.ReadLine());
 
+            /* ВЫВОД */
             Console.WriteLine($"{put} долларов = {Math.Round(neuron.ProcessInputData(put), 3)} евро");
 
             Console.ReadKey();
